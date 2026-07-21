@@ -1,8 +1,4 @@
-/* ==========================================================================
-   Debby Sinkalu Portfolio Javascript Logic
-   ========================================================================== */
 
-// Project Data Store
 const projectData = {
     shortlet: {
         title: "Verified Shortlet Booking Platform",
@@ -38,6 +34,7 @@ const projectData = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    initPageLoader();
     initTheme();
     initMobileMenu();
     initProjectFilters();
@@ -45,14 +42,11 @@ document.addEventListener("DOMContentLoaded", () => {
     initIntersectionObservers();
 });
 
-/* ==========================================================================
-   Theme Handler (Dark/Light Mode)
-   ========================================================================== */
+
 function initTheme() {
     const themeToggleBtn = document.getElementById("theme-toggle");
     const htmlTag = document.documentElement;
     
-    // Check local storage or match system preference
     const savedTheme = localStorage.getItem("portfolio-theme");
     const userPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     
@@ -73,9 +67,7 @@ function initTheme() {
     });
 }
 
-/* ==========================================================================
-   Mobile Dropdown Navigation Menu
-   ========================================================================== */
+
 function initMobileMenu() {
     const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
     const mobileMenuDropdown = document.getElementById("mobile-menu-dropdown");
@@ -84,7 +76,6 @@ function initMobileMenu() {
     const toggleMenu = () => {
         mobileMenuToggle.classList.toggle("open");
         mobileMenuDropdown.classList.toggle("open");
-        // Disable body scroll when mobile menu is open
         document.body.style.overflow = mobileMenuDropdown.classList.contains("open") ? "hidden" : "auto";
     };
     
@@ -99,9 +90,7 @@ function initMobileMenu() {
     });
 }
 
-/* ==========================================================================
-   Scroll Navbar Styling and Navigation Link Highlighting
-   ========================================================================== */
+
 function initScrollNavbar() {
     const navbar = document.getElementById("navbar");
     
@@ -114,9 +103,7 @@ function initScrollNavbar() {
     });
 }
 
-/* ==========================================================================
-   Scroll Reveal and Interactive Observers
-   ========================================================================== */
+
 function initIntersectionObservers() {
     // 1. Scroll-to-Reveal Sections
     const revealElements = document.querySelectorAll(".scroll-reveal");
@@ -136,7 +123,6 @@ function initIntersectionObservers() {
     
     revealElements.forEach(el => revealObserver.observe(el));
     
-    // 2. Skill progress bar animation on viewport enter
     const skillsSection = document.getElementById("skills");
     const skillProgressBars = document.querySelectorAll(".skill-progress");
     
@@ -161,7 +147,6 @@ function initIntersectionObservers() {
         skillsObserver.observe(skillsSection);
     }
     
-    // 3. Navigation link active state highlighter on scroll
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll(".nav-link");
     
@@ -187,18 +172,14 @@ function initIntersectionObservers() {
     sections.forEach(sec => activeSectionObserver.observe(sec));
 }
 
-/* ==========================================================================
-   Project Category Filter System
-   ========================================================================== */
+
 function initProjectFilters() {
     const filterButtons = document.querySelectorAll(".filter-btn");
     const projectCards = document.querySelectorAll(".project-card");
     
     filterButtons.forEach(btn => {
         btn.addEventListener("click", () => {
-            // Remove active style from other buttons
             filterButtons.forEach(b => b.classList.remove("active"));
-            // Add active to current button
             btn.classList.add("active");
             
             const filterValue = btn.getAttribute("data-filter");
@@ -225,9 +206,7 @@ function initProjectFilters() {
     });
 }
 
-/* ==========================================================================
-   Project Details Modal Controls
-   ========================================================================== */
+
 function openProjectModal(projectId) {
     const modal = document.getElementById("project-modal");
     const modalContent = document.getElementById("modal-project-content");
@@ -235,7 +214,7 @@ function openProjectModal(projectId) {
     
     if (!project) return;
     
-    // Build and inject HTML
+   
     let techHtml = "";
     project.tech.forEach(t => {
         techHtml += `<span>${t}</span>`;
@@ -280,16 +259,14 @@ function closeProjectModal() {
     document.body.style.overflow = "auto";
 }
 
-// Close modal on Escape key press
+
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
         closeProjectModal();
     }
 });
 
-/* ==========================================================================
-   Contact Form Submission & Response Feedback
-   ========================================================================== */
+
 function handleFormSubmit(event) {
     event.preventDefault();
     
@@ -300,17 +277,16 @@ function handleFormSubmit(event) {
     const subject = document.getElementById("form-subject").value;
     const message = document.getElementById("form-message").value;
     
-    // Visual processing state
+   
     submitBtn.disabled = true;
     submitBtn.innerHTML = `Sending... <span class="spinner"></span>`;
     
-    // Simulate API pipeline delay (1.5 seconds)
+    
     setTimeout(() => {
-        // Success emulation
         responseMsg.className = "form-response-msg success";
         responseMsg.innerHTML = `Thank you, ${name}! Your inquiry regarding "${subject}" has been submitted successfully.`;
         
-        // Reset button
+       
         submitBtn.disabled = false;
         submitBtn.innerHTML = `Send Message <svg class="send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>`;
         
@@ -324,3 +300,60 @@ function handleFormSubmit(event) {
         
     }, 1500);
 }
+
+
+function initPageLoader() {
+    const loader = document.getElementById("page-loader");
+    const loaderText = document.getElementById("loader-text");
+    
+
+    const hideLoader = () => {
+        if (loader) {
+            setTimeout(() => {
+                loader.classList.add("fade-out");
+            }, 300); // Small delay for aesthetic transition
+        }
+    };
+
+    if (document.readyState === "complete") {
+        hideLoader();
+    } else {
+        window.addEventListener("load", hideLoader);
+    }
+
+  
+    document.addEventListener("click", (e) => {
+        const link = e.target.closest("a");
+        if (!link) return;
+
+        const href = link.getAttribute("href");
+        const target = link.getAttribute("target");
+
+        
+        if (!href || href.startsWith("#") || href.startsWith("javascript:") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+            return;
+        }
+
+        
+        if (target === "_blank") {
+            e.preventDefault();
+            
+            const redirectUrl = `redirect.html?url=${encodeURIComponent(href)}`;
+            window.open(redirectUrl, "_blank");
+        } else {
+            e.preventDefault();
+            const redirectUrl = `redirect.html?url=${encodeURIComponent(href)}`;
+            if (loader) {
+                if (loaderText) loaderText.textContent = "Loading Page...";
+                loader.classList.remove("fade-out");
+                
+                setTimeout(() => {
+                    window.location.href = redirectUrl;
+                }, 400);
+            } else {
+                window.location.href = redirectUrl;
+            }
+        }
+    });
+}
+

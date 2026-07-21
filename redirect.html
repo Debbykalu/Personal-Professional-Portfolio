@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecting...</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Shared stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <script>
+        // Apply theme immediately before render to prevent flash of light mode
+        const savedTheme = localStorage.getItem("portfolio-theme") || "dark";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+    </script>
+</head>
+<body style="margin: 0; background-color: var(--bg-primary); overflow: hidden;">
+    <div class="page-loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <span class="logo-txt-primary">Debby</span><span class="logo-txt-accent">Sinkalu</span>
+            </div>
+            <div class="loader-spinner-container">
+                <div class="loader-spinner"></div>
+                <div class="loader-spinner-inner"></div>
+            </div>
+            <div class="loader-text" id="loader-text">Connecting...</div>
+        </div>
+    </div>
+    
+    <script>
+        // Extract redirect URL and navigate
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetUrl = urlParams.get('url');
+        
+        if (targetUrl) {
+            // Wait 800ms to show the loader animation, then redirect
+            setTimeout(() => {
+                window.location.replace(decodeURIComponent(targetUrl));
+            }, 800);
+        } else {
+            // Fallback to home page if no URL is provided
+            window.location.replace('/');
+        }
+    </script>
+</body>
+</html>
