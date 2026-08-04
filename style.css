@@ -259,6 +259,7 @@ ul {
 
 .logo-txt-accent {
     color: var(--accent-orange);
+    margin-left: 0.50rem;
 }
 
 .nav-menu {
