@@ -204,6 +204,7 @@ ul {
 .btn-secondary:hover {
     background-color: rgba(85, 195, 223, 0.1);
     color: var(--accent-cyan);
+    border: 1px solid var(--accent-cyan);
 }
 
 .btn-arrow {

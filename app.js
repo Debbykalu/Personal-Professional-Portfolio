@@ -329,8 +329,14 @@ function initPageLoader() {
         const href = link.getAttribute("href");
         const target = link.getAttribute("target");
 
-        
-        if (!href || href.startsWith("#") || href.startsWith("javascript:") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+        // Ignore section scroll links, empty/redirection links, download links, or PDF files
+        if (!href || 
+            href.startsWith("#") || 
+            href.startsWith("javascript:") || 
+            href.startsWith("mailto:") || 
+            href.startsWith("tel:") ||
+            link.hasAttribute("download") ||
+            href.endsWith(".pdf")) {
             return;
         }
 
