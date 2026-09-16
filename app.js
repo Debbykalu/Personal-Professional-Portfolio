@@ -1,34 +1,38 @@
+/**
+ * Debby Sinkalu Portfolio Interactive Script
+ */
 
 const projectData = {
     shortlet: {
         title: "Verified Shortlet Booking Platform",
-        tag: "Full Stack",
+        tag: "Full Stack Solution",
         status: "Production Ready",
         excerpt: "A secure, multi-role property rental application facilitating users, rental hosts, and admin workflows.",
-        description: "This verified shortlet booking platform was built to bridge the gap between hosts and renters by incorporating automated verification checkpoints, secure transactions, and a streamlined administrative pipeline. It supports user profiles, detailed listings, property reviews, messaging systems, booking cycles, and payment integrations.",
-        tech: ["Python", "Flask", "SQLAlchemy", "MySQL", "Docker", "AWS", "Bootstrap", "JavaScript", "Paystack API"],
+        description: "This verified shortlet booking platform was built to bridge the gap between hosts and renters by incorporating automated verification checkpoints, secure transactions, and a streamlined administrative pipeline. It supports user profiles, detailed listings, property reviews, messaging systems, booking cycles, wishlists, and payment integrations.",
+        tech: ["Python", "Flask", "SQLAlchemy", "MySQL", "Docker", "AWS (RDS, EC2, S3)", "Bootstrap", "JavaScript", "Paystack API"],
         features: [
-            "Designed a multi-role property rental platform for customers, hosts, and administrators.",
-            "Implemented authentication, booking management, host verification, reviews, notifications, and an admin dashboard.",
-            "Integrated Paystack payment gateway for secure local and international card processing.",
-            "Dockerized the application components for clean, reproducible development and staging setups.",
-            "Deployed and configured AWS resources (RDS, EC2, S3) using secure architectural principles."
-        ]
+            "Designed a multi-role property rental platform for customers, property hosts, and administrators.",
+            "Implemented secure authentication, host identity verification, review scoring, notification pipelines, and admin oversight.",
+            "Integrated Paystack payment gateway for local and international payment processing.",
+            "Dockerized all application services for consistent staging and production deployment.",
+            "Deployed and configured resilient AWS infrastructure (RDS MySQL, EC2, S3 bucket storage) adhering to security best practices."
+        ],
+        liveUrl: "http://ec2-54-205-57-68.compute-1.amazonaws.com/"
     },
     wedding: {
         title: "Wedding & Event Management Platform",
-        tag: "Full Stack",
+        tag: "Full Stack Solution",
         status: "In Development (75% Complete)",
         excerpt: "A modern full-stack event planning web system streamlining vendor dashboards and client bookings.",
-        description: "A comprehensive event coordination and planning software designed to simplify the wedding planning lifecycle. The platform connects clients directly with verified local vendors, offers real-time budget forecasting and timeline scheduling, and features intuitive admin panels to oversee registration and compliance.",
-        tech: ["React", "Python", "Flask", "MySQL", "REST APIs", "Docker", "AWS", "CSS Grid/Flexbox"],
+        description: "A comprehensive event coordination and planning software designed to simplify the wedding planning lifecycle. The platform connects clients directly with verified local vendors, offers real-time budget forecasting and timeline scheduling, and features intuitive admin panels to oversee vendor registration and compliance.",
+        tech: ["React", "Python", "Flask", "MySQL", "REST APIs", "Docker", "AWS", "CSS Grid / Flexbox"],
         features: [
-            "Comprehensive Vendor Management system with rating and portfolio display options.",
-            "Interactive client-facing Event Planning Dashboard for task checklist management.",
+            "Comprehensive Vendor Management system with rating systems and interactive portfolio displays.",
+            "Interactive client-facing Event Planning Dashboard for checklist task completion.",
             "Robust customer registration, authorization, and secure session management.",
-            "Real-time Budget Tracking and expense categorization features.",
-            "Responsive dashboard UI optimized for tablet and mobile devices.",
-            "Ready-made REST API architecture designed for external calendar integrations."
+            "Real-time Budget Tracking and expense categorization tools.",
+            "Responsive dashboard UI optimized for mobile, tablet, and desktop devices.",
+            "REST API architecture designed for external calendar and payment gateway integrations."
         ]
     }
 };
@@ -40,9 +44,28 @@ document.addEventListener("DOMContentLoaded", () => {
     initProjectFilters();
     initScrollNavbar();
     initIntersectionObservers();
+    initActiveNavOnScroll();
 });
 
+/* Page Preloader */
+function initPageLoader() {
+    const pageLoader = document.getElementById("page-loader");
+    if (pageLoader) {
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                pageLoader.classList.add("fade-out");
+            }, 300);
+        });
+        // Fallback hide
+        setTimeout(() => {
+            if (!pageLoader.classList.contains("fade-out")) {
+                pageLoader.classList.add("fade-out");
+            }
+        }, 2000);
+    }
+}
 
+/* Dark / Light Theme Controller */
 function initTheme() {
     const themeToggleBtn = document.getElementById("theme-toggle");
     const htmlTag = document.documentElement;
@@ -58,308 +81,193 @@ function initTheme() {
         localStorage.setItem("portfolio-theme", defaultTheme);
     }
     
-    themeToggleBtn.addEventListener("click", () => {
-        const currentTheme = htmlTag.getAttribute("data-theme");
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
-        
-        htmlTag.setAttribute("data-theme", newTheme);
-        localStorage.setItem("portfolio-theme", newTheme);
-    });
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener("click", () => {
+            const currentTheme = htmlTag.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            
+            htmlTag.setAttribute("data-theme", newTheme);
+            localStorage.setItem("portfolio-theme", newTheme);
+        });
+    }
 }
 
-
+/* Mobile Menu Drawer */
 function initMobileMenu() {
     const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
     const mobileMenuDropdown = document.getElementById("mobile-menu-dropdown");
     const mobileLinks = document.querySelectorAll(".mobile-nav-link");
     
-    const toggleMenu = () => {
-        mobileMenuToggle.classList.toggle("open");
-        mobileMenuDropdown.classList.toggle("open");
-        document.body.style.overflow = mobileMenuDropdown.classList.contains("open") ? "hidden" : "auto";
-    };
-    
-    mobileMenuToggle.addEventListener("click", toggleMenu);
-    
-    mobileLinks.forEach(link => {
-        link.addEventListener("click", () => {
-            if (mobileMenuDropdown.classList.contains("open")) {
-                toggleMenu();
-            }
-        });
-    });
-}
-
-
-function initScrollNavbar() {
-    const navbar = document.getElementById("navbar");
-    
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add("scrolled");
-        } else {
-            navbar.classList.remove("scrolled");
-        }
-    });
-}
-
-
-function initIntersectionObservers() {
-    // 1. Scroll-to-Reveal Sections
-    const revealElements = document.querySelectorAll(".scroll-reveal");
-    
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("revealed");
-                // Unobserve once shown
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
-    });
-    
-    revealElements.forEach(el => revealObserver.observe(el));
-    
-    const skillsSection = document.getElementById("skills");
-    const skillProgressBars = document.querySelectorAll(".skill-progress");
-    
-    if (skillsSection) {
-        const skillsObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    skillProgressBars.forEach(bar => {
-                        const width = bar.style.width;
-                        bar.style.width = '0';
-                        setTimeout(() => {
-                            bar.style.width = width;
-                        }, 100);
-                    });
-                    observer.unobserve(entry.target);
+    if (mobileMenuToggle && mobileMenuDropdown) {
+        const toggleMenu = () => {
+            mobileMenuToggle.classList.toggle("open");
+            mobileMenuDropdown.classList.toggle("open");
+            document.body.style.overflow = mobileMenuDropdown.classList.contains("open") ? "hidden" : "auto";
+        };
+        
+        mobileMenuToggle.addEventListener("click", toggleMenu);
+        
+        mobileLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                if (mobileMenuDropdown.classList.contains("open")) {
+                    toggleMenu();
                 }
             });
-        }, {
-            threshold: 0.2
         });
-        
-        skillsObserver.observe(skillsSection);
     }
-    
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll(".nav-link");
-    
-    const activeSectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const activeId = entry.target.getAttribute("id");
-                
-                navLinks.forEach(link => {
-                    link.classList.remove("active");
-                    const linkHref = link.getAttribute("href");
-                    if (linkHref === `#${activeId}`) {
-                        link.classList.add("active");
-                    }
-                });
-            }
-        });
-    }, {
-        threshold: 0.3,
-        rootMargin: "-20% 0px -60% 0px" // Focus more on middle viewport
-    });
-    
-    sections.forEach(sec => activeSectionObserver.observe(sec));
 }
 
+/* Scroll Header Effects */
+function initScrollNavbar() {
+    const navbar = document.getElementById("navbar");
+    if (navbar) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+        });
+    }
+}
 
+/* Project Tag Filter */
 function initProjectFilters() {
-    const filterButtons = document.querySelectorAll(".filter-btn");
+    const filterBtns = document.querySelectorAll(".filter-btn");
     const projectCards = document.querySelectorAll(".project-card");
     
-    filterButtons.forEach(btn => {
+    filterBtns.forEach(btn => {
         btn.addEventListener("click", () => {
-            filterButtons.forEach(b => b.classList.remove("active"));
+            filterBtns.forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
             
             const filterValue = btn.getAttribute("data-filter");
             
             projectCards.forEach(card => {
                 const category = card.getAttribute("data-category");
-                
                 if (filterValue === "all" || category === filterValue) {
-                    card.style.display = "block";
-                    // Brief delay to trigger entrance animation
+                    card.style.display = "flex";
                     setTimeout(() => {
                         card.style.opacity = "1";
                         card.style.transform = "translateY(0)";
                     }, 50);
                 } else {
                     card.style.opacity = "0";
-                    card.style.transform = "translateY(10px)";
+                    card.style.transform = "translateY(20px)";
                     setTimeout(() => {
                         card.style.display = "none";
-                    }, 200);
+                    }, 300);
                 }
             });
         });
     });
 }
 
+/* Scroll Reveal Observer */
+function initIntersectionObservers() {
+    const reveals = document.querySelectorAll(".scroll-reveal");
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+    
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("revealed");
+                obs.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    reveals.forEach(el => observer.observe(el));
+}
 
+/* Active Nav Highlighting */
+function initActiveNavOnScroll() {
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".nav-link");
+    
+    window.addEventListener("scroll", () => {
+        let currentSectionId = "";
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 120;
+            const sectionHeight = section.offsetHeight;
+            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                currentSectionId = section.getAttribute("id");
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove("active");
+            if (link.getAttribute("href") === `#${currentSectionId}`) {
+                link.classList.add("active");
+            }
+        });
+    });
+}
+
+/* Case Study Modal Logic */
 function openProjectModal(projectId) {
+    const data = projectData[projectId];
+    if (!data) return;
+    
     const modal = document.getElementById("project-modal");
     const modalContent = document.getElementById("modal-project-content");
-    const project = projectData[projectId];
     
-    if (!project) return;
+    if (!modal || !modalContent) return;
     
-   
-    let techHtml = "";
-    project.tech.forEach(t => {
-        techHtml += `<span>${t}</span>`;
-    });
-    
-    let featuresHtml = "";
-    project.features.forEach(f => {
-        featuresHtml += `<li>${f}</li>`;
-    });
+    const techBadges = data.tech.map(t => `<span class="project-tech-tags"><span>${t}</span></span>`).join(" ");
+    const featureList = data.features.map(f => `<li>${f}</li>`).join("");
+    const liveBtn = data.liveUrl ? `<a href="${data.liveUrl}" target="_blank" rel="noopener" class="btn btn-gold" style="margin-top: 1.5rem; display: inline-flex;">Launch Live Platform &rarr;</a>` : "";
     
     modalContent.innerHTML = `
-        <div class="modal-header">
-            <span class="modal-tag">${project.tag} • ${project.status}</span>
-            <h3 class="modal-title">${project.title}</h3>
-            <div class="underline"></div>
+        <span class="modal-tag">${data.tag} • ${data.status}</span>
+        <h3>${data.title}</h3>
+        <p style="font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 1.5rem;">${data.description}</p>
+        
+        <div class="modal-section-title">Key Architectural Accomplishments</div>
+        <ul class="modal-feature-list">
+            ${featureList}
+        </ul>
+        
+        <div class="modal-section-title">Technologies Used</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            ${data.tech.map(t => `<span style="background: var(--mint-subtle); color: var(--emerald-deep); padding: 0.3rem 0.8rem; border-radius: 6px; font-weight: 600; font-size: 0.85rem;">${t}</span>`).join("")}
         </div>
-        <div class="modal-body">
-            <h4>Description</h4>
-            <p>${project.description}</p>
-            
-            <h4>Technology Stack</h4>
-            <div class="modal-tech-list">
-                ${techHtml}
-            </div>
-            
-            <h4>Key Features & Achievements</h4>
-            <ul class="modal-features-list">
-                ${featuresHtml}
-            </ul>
-        </div>
+        
+        ${liveBtn}
     `;
     
-    modal.classList.add("open");
+    modal.classList.add("active");
     modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden"; // Prevent background scroll
+    document.body.style.overflow = "hidden";
 }
 
 function closeProjectModal() {
     const modal = document.getElementById("project-modal");
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "auto";
+    if (modal) {
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "auto";
+    }
 }
 
-
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-        closeProjectModal();
-    }
-});
-
-
+/* Contact Form Simulation */
 function handleFormSubmit(event) {
     event.preventDefault();
-    
-    const submitBtn = document.getElementById("btn-submit-form");
     const responseMsg = document.getElementById("form-response");
-    const name = document.getElementById("form-name").value;
-    const email = document.getElementById("form-email").value;
-    const subject = document.getElementById("form-subject").value;
-    const message = document.getElementById("form-message").value;
+    const nameInput = document.getElementById("form-name").value;
     
-   
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `Sending... <span class="spinner"></span>`;
-    
-    
-    setTimeout(() => {
+    if (responseMsg) {
         responseMsg.className = "form-response-msg success";
-        responseMsg.innerHTML = `Thank you, ${name}! Your inquiry regarding "${subject}" has been submitted successfully.`;
-        
-       
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = `Send Message <svg class="send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>`;
-        
-        // Reset form inputs
+        responseMsg.innerHTML = `Thank you, <strong>${nameInput}</strong>! Your message has been received. I will get back to you shortly.`;
         document.getElementById("contact-form").reset();
         
-        // Hide success message after 5 seconds
         setTimeout(() => {
             responseMsg.style.display = "none";
-        }, 5000);
-        
-    }, 1500);
-}
-
-
-function initPageLoader() {
-    const loader = document.getElementById("page-loader");
-    const loaderText = document.getElementById("loader-text");
-    
-
-    const hideLoader = () => {
-        if (loader) {
-            setTimeout(() => {
-                loader.classList.add("fade-out");
-            }, 300); // Small delay for aesthetic transition
-        }
-    };
-
-    if (document.readyState === "complete") {
-        hideLoader();
-    } else {
-        window.addEventListener("load", hideLoader);
+        }, 6000);
     }
-
-  
-    document.addEventListener("click", (e) => {
-        const link = e.target.closest("a");
-        if (!link) return;
-
-        const href = link.getAttribute("href");
-        const target = link.getAttribute("target");
-
-        // Ignore section scroll links, empty/redirection links, download links, or PDF files
-        if (!href || 
-            href.startsWith("#") || 
-            href.startsWith("javascript:") || 
-            href.startsWith("mailto:") || 
-            href.startsWith("tel:") ||
-            link.hasAttribute("download") ||
-            href.endsWith(".pdf")) {
-            return;
-        }
-
-        
-        if (target === "_blank") {
-            e.preventDefault();
-            
-            const redirectUrl = `redirect.html?url=${encodeURIComponent(href)}`;
-            window.open(redirectUrl, "_blank");
-        } else {
-            e.preventDefault();
-            const redirectUrl = `redirect.html?url=${encodeURIComponent(href)}`;
-            if (loader) {
-                if (loaderText) loaderText.textContent = "Loading Page...";
-                loader.classList.remove("fade-out");
-                
-                setTimeout(() => {
-                    window.location.href = redirectUrl;
-                }, 400);
-            } else {
-                window.location.href = redirectUrl;
-            }
-        }
-    });
 }
-
