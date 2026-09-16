@@ -522,22 +522,127 @@
                 <!-- Filter Buttons -->
                 <div class="project-filters scroll-reveal">
                     <button class="filter-btn active" data-filter="all">All Projects</button>
-                    <button class="filter-btn" data-filter="fullstack">Full Stack</button>
-                    <button class="filter-btn" data-filter="backend">Backend</button>
+                    <button class="filter-btn" data-filter="enterprise">Enterprise Collaboration</button>
+                    <button class="filter-btn" data-filter="fullstack">Full Stack & Web</button>
                 </div>
                 
                 <div class="projects-grid">
-                    <!-- Project 1: Shortlet -->
+                    <!-- Project 1: Wakanow.com -->
+                    <div class="project-card scroll-reveal" data-category="enterprise fullstack">
+                        <div class="project-img-container">
+                            <img src="wakanow_preview.jpg" alt="Wakanow.com Enterprise Travel Platform Mockup">
+                            <span class="project-status-badge">Live Commercial</span>
+                            <span class="project-tag">Enterprise Collaboration</span>
+                        </div>
+                        <div class="project-body">
+                            <h3 class="project-title">Wakanow.com Enterprise Travel Platform</h3>
+                            <p class="project-excerpt">
+                                High-volume travel engine handling thousands of daily flight search queries and hotel booking transactions across West Africa. Built reusable React & Angular UI component libraries and high-throughput REST APIs.
+                            </p>
+                            <div class="project-tech-tags">
+                                <span>React</span><span>Angular</span><span>TypeScript</span><span>REST APIs</span><span>Azure</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn-read-case" onclick="openProjectModal('wakanow')">
+                                    Read Details
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </button>
+                                <a href="https://www.wakanow.com" target="_blank" rel="noopener" class="btn-live-demo">
+                                    Visit Site
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: Travelden.com -->
+                    <div class="project-card scroll-reveal" data-category="enterprise fullstack">
+                        <div class="project-img-container">
+                            <img src="travelden_preview.jpg" alt="Travelden.com OTA Flight Booking Platform Mockup">
+                            <span class="project-status-badge">Live Commercial</span>
+                            <span class="project-tag">Enterprise Collaboration</span>
+                        </div>
+                        <div class="project-body">
+                            <h3 class="project-title">Travelden.com OTA Flight Booking Engine</h3>
+                            <p class="project-excerpt">
+                                Enterprise Online Travel Agency platform featuring multi-GDS airline API integrations (Amadeus, Sabre, Verteil), real-time seat selection, fare rules, and ancillary booking modules.
+                            </p>
+                            <div class="project-tech-tags">
+                                <span>React</span><span>Next.js</span><span>GDS APIs</span><span>TypeScript</span><span>AWS</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn-read-case" onclick="openProjectModal('travelden')">
+                                    Read Details
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </button>
+                                <a href="https://www.travelden.com" target="_blank" rel="noopener" class="btn-live-demo">
+                                    Visit Site
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: Jamborow UK Ltd -->
+                    <div class="project-card scroll-reveal" data-category="enterprise fullstack">
+                        <div class="project-img-container">
+                            <img src="jamborow_preview.jpg" alt="Jamborow UK FinTech Platform Mockup">
+                            <span class="project-status-badge">Active Production</span>
+                            <span class="project-tag">Enterprise Collaboration</span>
+                        </div>
+                        <div class="project-body">
+                            <h3 class="project-title">Jamborow UK FinTech Platform</h3>
+                            <p class="project-excerpt">
+                                Digital microfinance and financial inclusion application serving unbanked communities across Africa and the UK. Built using React frontends, Python/Flask backends, Docker, and AWS cloud infrastructure.
+                            </p>
+                            <div class="project-tech-tags">
+                                <span>React</span><span>Python</span><span>Flask</span><span>MySQL</span><span>Docker</span><span>AWS</span>
+                            </div>
+                            <div class="project-actions">
+                                <button class="btn-read-case" onclick="openProjectModal('jamborow')">
+                                    Read Details
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12 5 19 12 12 19"></polyline>
+                                    </svg>
+                                </button>
+                                <a href="https://www.jamborow.com" target="_blank" rel="noopener" class="btn-live-demo">
+                                    Visit Site
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 4: Shortlet -->
                     <div class="project-card scroll-reveal" data-category="fullstack">
                         <div class="project-img-container">
                             <img src="shortlet_preview.jpg" alt="Verified Shortlet Booking Platform Mockup">
                             <span class="project-status-badge">Production Ready</span>
-                            <span class="project-tag">Full Stack</span>
+                            <span class="project-tag">Full Stack Solution</span>
                         </div>
                         <div class="project-body">
                             <h3 class="project-title">Verified Shortlet Booking Platform</h3>
                             <p class="project-excerpt">
-                                A comprehensive multi-role rental application supporting hosts, renters, and admins. Integrates automated verification, payment gateway integration (Paystack), real-time booking cycles, wishlists, and administrative management.
+                                A comprehensive multi-role property rental application supporting hosts, renters, and admins. Integrates automated verification, payment gateway integration (Paystack), real-time booking cycles, wishlists, and administrative management.
                             </p>
                             <div class="project-tech-tags">
                                 <span>Flask</span><span>MySQL</span><span>AWS RDS/EC2</span><span>Paystack</span><span>Docker</span>
@@ -562,17 +667,17 @@
                         </div>
                     </div>
 
-                    <!-- Project 2: Wedding -->
+                    <!-- Project 5: Wedding -->
                     <div class="project-card scroll-reveal" data-category="fullstack">
                         <div class="project-img-container">
                             <img src="event_preview.jpg" alt="Wedding & Event Management Platform Mockup">
                             <span class="project-status-badge">75% Complete</span>
-                            <span class="project-tag">Full Stack</span>
+                            <span class="project-tag">Full Stack Solution</span>
                         </div>
                         <div class="project-body">
                             <h3 class="project-title">Wedding & Event Management System</h3>
                             <p class="project-excerpt">
-                                A modern Software engineer, event coordination application designed to connect clients directly with verified local vendors. Features budget forecasting, interactive task checklists, registration auth, and admin oversight.
+                                A modern full-stack event coordination application designed to connect clients directly with verified local vendors. Features budget forecasting, interactive task checklists, registration auth, and admin oversight.
                             </p>
                             <div class="project-tech-tags">
                                 <span>React</span><span>Python / Flask</span><span>MySQL</span><span>Docker</span><span>AWS</span>
